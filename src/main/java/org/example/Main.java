@@ -1,17 +1,27 @@
 package org.example;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
-public class Main {
-    public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
+import org.bson.Document;
+import com.mongodb.client.FindIterable;
+import com.mongodb.client.result.UpdateResult;
+import com.mongodb.client.result.DeleteResult;
 
-        for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            System.out.println("i = " + i);
+
+public class Main {
+    //insert
+    public static void main(String[] args) {
+        try (MongoClient mongoClient = MongoClients.create("mongodb://localhost:27017")) {
+            MongoDatabase database = mongoClient.getDatabase("miBaseDeDatos");
+            MongoCollection<Document> collection = database.getCollection("miColeccion");
+            Document documento = new Document("nombre", "Juan")
+                    .append("apellido", "Zaldumbide")
+                    .append("edad", 31);
+            collection.insertOne(documento);
+            System.out.println("Documento insertado con éxito");
         }
     }
+    //leer
 }
